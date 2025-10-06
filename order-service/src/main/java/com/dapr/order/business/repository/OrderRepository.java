@@ -21,14 +21,14 @@ public class OrderRepository {
   }
 
   public Order getOrder(UUID id) {
-    return dapr.getState(DaprConfig.STATE_STORE_NAME, id.toString(), Order.class).getValue();
+    return dapr.getState(DaprConfig.STATE_STORE_NAME, String.valueOf(id), Order.class).getValue();
   }
 
-  public void createOrder(Order order) {
-    dapr.saveState(DaprConfig.STATE_STORE_NAME, order.getOrderId().toString(), order);
+  public void saveOrder(Order order) {
+    dapr.saveState(DaprConfig.STATE_STORE_NAME, String.valueOf(order.getOrderId()), order);
   }
 
   public void deleteOrder(UUID id) {
-    dapr.deleteState(DaprConfig.STATE_STORE_NAME, id.toString());
+    dapr.deleteState(DaprConfig.STATE_STORE_NAME, String.valueOf(id));
   }
 }

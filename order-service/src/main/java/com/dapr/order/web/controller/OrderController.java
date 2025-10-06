@@ -2,9 +2,12 @@ package com.dapr.order.web.controller;
 
 import com.dapr.order.business.service.OrderService;
 import com.dapr.order.model.Order;
+import com.dapr.order.model.OrderStatus;
+import com.dapr.order.web.controller.dto.CreateOrderDto;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Path("order")
@@ -30,13 +33,19 @@ public class OrderController {
 
   @POST
   @Path("/")
-  public void createOrder(Order order) {
-    orderService.createOrder(order);
+  public void createOrder(CreateOrderDto dto) {
+    orderService.createOrder(dto);
+  }
+
+  @PUT
+  @Path("/{id}/status")
+  public void updateOrderStatus(@PathParam("id") UUID id, @QueryParam("status") OrderStatus status) {
+    orderService.updateOrderStatus(id, status);
   }
 
   @DELETE
   @Path("/{id}")
-  public void deleteOrder(@PathParam("id") UUID id) {
-    orderService.deleteOrder(id);
+  public void removeOrder(@PathParam("id") UUID id) {
+    orderService.removeOrder(id);
   }
 }

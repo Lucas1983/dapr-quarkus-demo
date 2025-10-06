@@ -1,6 +1,6 @@
 package com.dapr.order.model;
 
-public enum Status {
+public enum OrderStatus {
   NEW,
   PROCESSING,
   COMPLETED,
