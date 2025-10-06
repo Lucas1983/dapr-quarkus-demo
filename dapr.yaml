@@ -1,23 +1,25 @@
 version: 1
-common:
-  resourcesPath: resources
+#common:
+#  resourcesPaths: ./components
 apps:
   - appId: inventory-svc
     appDirPath: ./inventory-service
     appProtocol: http
     appPort: 8081
     appLogDestination: console
+    daprHTTPPort: 38081
     daprdLogDestination: console
-    logLevel: warn
+    logLevel: debug
     command: ["./gradlew", "quarkusDev"]
-    
+
   - appId: order-svc
     appDirPath: ./order-service
     appProtocol: http
     appPort: 8082
     appLogDestination: console
+    daprHTTPPort: 38082
     daprdLogDestination: console
-    logLevel: warn
+    logLevel: debug
     command: ["./gradlew", "quarkusDev"]
 
   - appId: shipping-svc
@@ -25,6 +27,7 @@ apps:
     appProtocol: http
     appPort: 8083
     appLogDestination: console
+    daprHTTPPort: 38083
     daprdLogDestination: console
-    logLevel: warn
+    logLevel: debug
     command: ["./gradlew", "quarkusDev"]
