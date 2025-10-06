@@ -1,28 +1,34 @@
 package com.dapr.order.business.repository;
 
+import com.dapr.order.config.DaprConfig;
 import com.dapr.order.model.Order;
+import io.dapr.client.domain.State;
+import io.quarkiverse.dapr.core.SyncDaprClient;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Singleton
 public class OrderRepository {
-  private final List<Order> orders = new ArrayList<>();
+
+  @Inject SyncDaprClient dapr;
 
   public List<Order> getOrders() {
-    return List.copyOf(orders);
+    return dapr.getBulkState(DaprConfig.STATE_STORE_NAME, List.of(), Order.class).stream()
+        .map(State::getValue)
+        .toList();
   }
 
   public Order getOrder(UUID id) {
-    return orders.stream().filter(order -> order.getOrderId().equals(id)).findFirst().orElseThrow();
+    return dapr.getState(DaprConfig.STATE_STORE_NAME, id.toString(), Order.class).getValue();
   }
 
   public void createOrder(Order order) {
-    orders.add(order);
+    dapr.saveState(DaprConfig.STATE_STORE_NAME, order.getOrderId().toString(), order);
   }
 
   public void deleteOrder(UUID id) {
-    orders.removeIf(order -> order.getOrderId().equals(id));
+    dapr.deleteState(DaprConfig.STATE_STORE_NAME, id.toString());
   }
 }

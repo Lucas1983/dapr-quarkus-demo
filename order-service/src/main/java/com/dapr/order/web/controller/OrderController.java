@@ -2,6 +2,7 @@ package com.dapr.order.web.controller;
 
 import com.dapr.order.business.service.OrderService;
 import com.dapr.order.model.Order;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import java.util.List;
 import java.util.UUID;
@@ -9,7 +10,7 @@ import java.util.UUID;
 @Path("order")
 public class OrderController {
 
-  private final OrderService orderService;
+  @Inject OrderService orderService;
 
   public OrderController(OrderService orderService) {
     this.orderService = orderService;
