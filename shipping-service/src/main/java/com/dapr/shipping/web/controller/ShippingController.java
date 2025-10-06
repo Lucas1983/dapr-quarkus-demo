@@ -5,6 +5,7 @@ import com.dapr.shipping.model.Shipment;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import java.util.List;
+import java.util.UUID;
 
 @Path("/shipping")
 public class ShippingController {
@@ -18,7 +19,7 @@ public class ShippingController {
 
   @GET
   @Path("/shipments/{id}")
-  public Shipment getShipment(@PathParam("id") int id) {
+  public Shipment getShipment(@PathParam("id") UUID id) {
     return shippingService.getShipment(id);
   }
 
@@ -30,7 +31,7 @@ public class ShippingController {
 
   @DELETE
   @Path("/shipments/{id}")
-  public void deleteShipment(@PathParam("id") int id) {
+  public void deleteShipment(@PathParam("id") UUID id) {
     shippingService.deleteShipment(id);
   }
 }

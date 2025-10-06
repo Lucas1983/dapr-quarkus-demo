@@ -1,6 +1,6 @@
 package com.dapr.shipping.model;
 
-public enum Status {
+public enum ShipmentStatus {
 	NEW,
 	PENDING,
     SHIPPED,

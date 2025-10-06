@@ -1,28 +1,34 @@
 package com.dapr.shipping.business.repository;
 
+import com.dapr.shipping.config.DaprConfig;
 import com.dapr.shipping.model.Shipment;
+import io.quarkiverse.dapr.core.SyncDaprClient;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Singleton
 public class ShippingRepository {
-    private final List<Shipment> shipments = new ArrayList<>();
 
-    public List<Shipment> getShipments() {
-        return List.copyOf(shipments);
-    }
+  @Inject SyncDaprClient dapr;
 
-    public Shipment getShipment(int id) {
-        return shipments.stream().filter(s -> s.hashCode() == id).findFirst().orElse(null);
-    }
+  public List<Shipment> getShipments() {
+    return dapr.getBulkState(DaprConfig.STATE_STORE_NAME, List.of(), Shipment.class).stream()
+        .map(io.dapr.client.domain.State::getValue)
+        .toList();
+  }
 
-    public void createShipment(Shipment shipment) {
-        shipments.add(shipment);
-    }
+  public Shipment getShipment(UUID id) {
+    return dapr.getState(DaprConfig.STATE_STORE_NAME, String.valueOf(id), Shipment.class)
+        .getValue();
+  }
 
-    public void deleteShipment(int id) {
-        shipments.removeIf(s -> s.hashCode() == id);
-    }
+  public void createShipment(Shipment shipment) {
+    dapr.saveState(DaprConfig.STATE_STORE_NAME, String.valueOf(shipment.getShipmentId()), shipment);
+  }
+
+  public void deleteShipment(UUID id) {
+    dapr.deleteState(DaprConfig.STATE_STORE_NAME, String.valueOf(id));
+  }
 }
