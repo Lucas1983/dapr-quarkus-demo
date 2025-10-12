@@ -1,7 +1,7 @@
 package com.dapr.inventory.web.controller;
 
 import com.dapr.inventory.business.service.InventoryService;
-import com.dapr.inventory.model.Product;
+import com.dapr.inventory.model.entity.Product;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import java.util.List;
@@ -9,8 +9,7 @@ import java.util.List;
 @Path("/inventory")
 public class InventoryController {
 
-  @Inject
-  InventoryService inventoryService;
+  @Inject InventoryService inventoryService;
 
   @GET
   @Path("/")
@@ -26,8 +25,8 @@ public class InventoryController {
 
   @POST
   @Path("/")
-  public Product createProduct(Product product) {
-    return inventoryService.createProduct(product);
+  public void createProduct(Product product) {
+    inventoryService.createProduct(product);
   }
 
   @DELETE
