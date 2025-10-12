@@ -5,5 +5,12 @@ metadata:
 spec:
   topic: orders
   routes:
-    default: /orders
+    default: /orders/default
+    rules:
+      - match: event.type == order-completed" 
+        path: /orders/completed
+      - match: event.type == "order-cancelled"
+        path: /orders/cancelled
+      - match: event.type == "order-created"
+        path: /orders/created
   pubsubname: pubsub
