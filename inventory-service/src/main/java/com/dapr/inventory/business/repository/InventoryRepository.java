@@ -1,32 +1,33 @@
 package com.dapr.inventory.business.repository;
 
-import com.dapr.inventory.model.Product;
+import com.dapr.common.DaprConfig;
+import com.dapr.inventory.model.entity.Product;
+import io.quarkiverse.dapr.core.SyncDaprClient;
+import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-
 import java.util.List;
 
 @Singleton
 public class InventoryRepository {
-    public List<Product> getProducts() {
-        // TODO: Implement data access logic
-        return null;
-    }
+  @Inject SyncDaprClient dapr;
 
-    public Product getProductById(String id) {
-        // TODO: Implement data access logic
-        return null;
-    }
+  public List<Product> getProducts() {
 
-    public Product createProduct(Product product) {
-        // TODO: Implement data access logic
-        return null;
-    }
+    return dapr.getBulkState(DaprConfig.STATE_STORE_NAME, List.of(), Product.class).stream()
+        .map(io.dapr.client.domain.State::getValue)
+        .toList();
+  }
 
-    public void deleteProductById(String id) {
-        // TODO: Implement data access logic
-    }
+  public Product getProductById(String id) {
 
-    public void updateProduct(String id, Product product) {
-        // TODO: Implement data access logic
-    }
+    return dapr.getState(DaprConfig.STATE_STORE_NAME, id, Product.class).getValue();
+  }
+
+  public void saveProduct(Product product) {
+    dapr.saveState(DaprConfig.STATE_STORE_NAME, String.valueOf(product.getId()), product);
+  }
+
+  public void deleteProduct(String id) {
+    dapr.deleteState(DaprConfig.STATE_STORE_NAME, id);
+  }
 }
