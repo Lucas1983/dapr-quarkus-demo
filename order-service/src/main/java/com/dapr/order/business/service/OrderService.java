@@ -1,10 +1,12 @@
 package com.dapr.order.business.service;
 
+import static com.dapr.common.DaprConfig.ORDER_TOPIC;
+import static com.dapr.common.DaprConfig.PUBSUB_NAME;
 import static com.dapr.order.model.dictionary.OrderStatus.NEW;
 
-import com.dapr.common.DaprConfig;
 import com.dapr.common.order.OrderCanceledEvent;
 import com.dapr.common.order.OrderCompletedEvent;
+import com.dapr.common.order.OrderCreatedEvent;
 import com.dapr.order.business.repository.OrderRepository;
 import com.dapr.order.model.dictionary.OrderStatus;
 import com.dapr.order.model.entity.Order;
@@ -45,8 +47,16 @@ public class OrderService {
             .createdAt(Instant.now())
             .build();
 
-    orderRepository.saveOrder(order);
     log.info("Created order {}", order);
+    dapr.publishEvent(
+        PUBSUB_NAME,
+        ORDER_TOPIC,
+        OrderCreatedEvent.builder()
+            .orderId(order.getOrderId())
+            .products(order.getProducts())
+            .build());
+    orderRepository.saveOrder(order);
+    log.info("Published order CREATED event for {}", order);
   }
 
   public void updateOrderStatus(UUID id, OrderStatus orderStatus) {
@@ -63,21 +73,25 @@ public class OrderService {
                 case COMPLETED -> {
                   log.info("Order {} has been completed", order.getOrderId());
                   dapr.publishEvent(
-                      DaprConfig.PUBSUB_NAME,
-                      DaprConfig.ORDER_TOPIC,
-                      OrderCompletedEvent.builder().orderId(order.getOrderId()).build());
+                      PUBSUB_NAME,
+                      ORDER_TOPIC,
+                      OrderCompletedEvent.builder()
+                          .orderId(order.getOrderId())
+                          .customerId(order.getCustomerId())
+                          .build());
                   log.info("Published order COMPLETED event for {}", order);
                 }
                 case CANCELLED -> {
                   log.info("Order {} has been cancelled", order.getOrderId());
                   dapr.publishEvent(
-                      DaprConfig.PUBSUB_NAME,
-                      DaprConfig.ORDER_TOPIC,
+                      PUBSUB_NAME,
+                      ORDER_TOPIC,
                       OrderCanceledEvent.builder().orderId(order.getOrderId()).build());
                   log.info("Published order CANCELLED event for {}", order);
                 }
                 default -> {
-                  // No action needed for other statuses
+                  throw new IllegalStateException(
+                      "Unexpected order status: " + order.getOrderStatus());
                 }
               }
             },
