@@ -1,13 +1,12 @@
 package com.dapr.order.web.controller;
 
 import com.dapr.order.business.service.OrderService;
-import com.dapr.order.model.Order;
-import com.dapr.order.model.OrderStatus;
-import com.dapr.order.web.controller.dto.CreateOrderDto;
+import com.dapr.order.model.entity.Order;
+import com.dapr.order.model.dictionary.OrderStatus;
+import com.dapr.order.web.dto.CreateOrderDto;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Path("order")

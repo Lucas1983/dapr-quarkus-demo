@@ -1,7 +1,7 @@
 package com.dapr.order.business.repository;
 
-import com.dapr.order.config.DaprConfig;
-import com.dapr.order.model.Order;
+import com.dapr.common.DaprConfig;
+import com.dapr.order.model.entity.Order;
 import io.dapr.client.domain.State;
 import io.quarkiverse.dapr.core.SyncDaprClient;
 import jakarta.inject.Inject;

@@ -1,5 +1,6 @@
-package com.dapr.order.model;
+package com.dapr.order.model.entity;
 
+import com.dapr.order.model.dictionary.OrderStatus;
 import lombok.Builder;
 import lombok.Data;
 
