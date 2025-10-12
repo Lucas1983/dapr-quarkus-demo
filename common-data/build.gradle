@@ -24,6 +24,10 @@ test {
     useJUnitPlatform()
 }
 
+tasks.named('build') {
+    finalizedBy 'publishToMavenLocal'
+}
+
 publishing {
     publications {
         mavenJava(MavenPublication) {
