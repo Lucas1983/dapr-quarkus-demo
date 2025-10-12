@@ -6,9 +6,9 @@ import java.util.UUID;
 import lombok.Builder;
 
 @Builder
-public record InventoryReservationFailedEvent(UUID orderId) implements BaseEvent {
+public record InventoryReservationSucceededEvent(UUID orderId) implements BaseEvent {
   @Override
   public EventType type() {
-    return EventType.INVENTORY_RESERVATION_FAILED;
+    return EventType.INVENTORY_RESERVATION_SUCCEEDED;
   }
 }
