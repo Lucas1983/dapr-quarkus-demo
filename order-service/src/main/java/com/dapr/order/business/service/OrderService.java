@@ -1,12 +1,14 @@
 package com.dapr.order.business.service;
 
-import static com.dapr.order.model.OrderStatus.NEW;
+import static com.dapr.order.model.dictionary.OrderStatus.NEW;
 
+import com.dapr.common.DaprConfig;
+import com.dapr.common.order.OrderCanceledEvent;
+import com.dapr.common.order.OrderCompletedEvent;
 import com.dapr.order.business.repository.OrderRepository;
-import com.dapr.order.config.DaprConfig;
-import com.dapr.order.model.Order;
-import com.dapr.order.model.OrderStatus;
-import com.dapr.order.web.controller.dto.CreateOrderDto;
+import com.dapr.order.model.dictionary.OrderStatus;
+import com.dapr.order.model.entity.Order;
+import com.dapr.order.web.dto.CreateOrderDto;
 import io.quarkiverse.dapr.core.SyncDaprClient;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -60,12 +62,18 @@ public class OrderService {
                 case PROCESSING -> log.info("Order {} is being processed", order.getOrderId());
                 case COMPLETED -> {
                   log.info("Order {} has been completed", order.getOrderId());
-                  dapr.publishEvent(DaprConfig.PUBSUB_NAME, DaprConfig.ORDER_TOPIC, order);
+                  dapr.publishEvent(
+                      DaprConfig.PUBSUB_NAME,
+                      DaprConfig.ORDER_TOPIC,
+                      OrderCompletedEvent.builder().orderId(order.getOrderId()).build());
                   log.info("Published order COMPLETED event for {}", order);
                 }
                 case CANCELLED -> {
                   log.info("Order {} has been cancelled", order.getOrderId());
-                  dapr.publishEvent(DaprConfig.PUBSUB_NAME, DaprConfig.ORDER_TOPIC, order);
+                  dapr.publishEvent(
+                      DaprConfig.PUBSUB_NAME,
+                      DaprConfig.ORDER_TOPIC,
+                      OrderCanceledEvent.builder().orderId(order.getOrderId()).build());
                   log.info("Published order CANCELLED event for {}", order);
                 }
                 default -> {
@@ -73,7 +81,9 @@ public class OrderService {
                 }
               }
             },
-            RuntimeException::new);
+            () -> {
+              throw new RuntimeException("Order not found: " + id);
+            });
   }
 
   public void removeOrder(UUID id) {
