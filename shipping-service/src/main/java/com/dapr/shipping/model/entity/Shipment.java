@@ -1,5 +1,6 @@
-package com.dapr.shipping.model;
+package com.dapr.shipping.model.entity;
 
+import com.dapr.shipping.model.dictionary.ShipmentStatus;
 import lombok.Builder;
 import lombok.Data;
 

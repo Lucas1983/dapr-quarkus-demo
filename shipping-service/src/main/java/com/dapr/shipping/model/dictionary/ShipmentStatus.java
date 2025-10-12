@@ -1,4 +1,4 @@
-package com.dapr.shipping.model;
+package com.dapr.shipping.model.dictionary;
 
 public enum ShipmentStatus {
 	NEW,

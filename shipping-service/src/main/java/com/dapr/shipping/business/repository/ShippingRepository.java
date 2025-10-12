@@ -1,7 +1,7 @@
 package com.dapr.shipping.business.repository;
 
-import com.dapr.shipping.config.DaprConfig;
-import com.dapr.shipping.model.Shipment;
+import com.dapr.common.DaprConfig;
+import com.dapr.shipping.model.entity.Shipment;
 import io.quarkiverse.dapr.core.SyncDaprClient;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
@@ -24,7 +24,7 @@ public class ShippingRepository {
         .getValue();
   }
 
-  public void createShipment(Shipment shipment) {
+  public void saveShipment(Shipment shipment) {
     dapr.saveState(DaprConfig.STATE_STORE_NAME, String.valueOf(shipment.getShipmentId()), shipment);
   }
 

@@ -1,7 +1,9 @@
 package com.dapr.shipping.web.controller;
 
 import com.dapr.shipping.business.service.ShippingService;
-import com.dapr.shipping.model.Shipment;
+import com.dapr.shipping.model.entity.Shipment;
+import com.dapr.shipping.model.dictionary.ShipmentStatus;
+import com.dapr.shipping.web.dto.CreateShipmentDto;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import java.util.List;
@@ -25,8 +27,15 @@ public class ShippingController {
 
   @POST
   @Path("/shipments")
-  public void createShipment(Shipment shipment) {
-    shippingService.createShipment(shipment);
+  public void createShipment(CreateShipmentDto dto) {
+    shippingService.createShipment(dto.getOrderId());
+  }
+
+  @PUT
+  @Path("/{id}/status")
+  public void updateShipmentStatus(
+      @PathParam("id") UUID id, @QueryParam("status") ShipmentStatus status) {
+    shippingService.updateShipmentStatus(id, status);
   }
 
   @DELETE
