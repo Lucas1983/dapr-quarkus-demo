@@ -4,7 +4,7 @@ import static com.dapr.common.DaprConfig.INVENTORY_TOPIC;
 import static com.dapr.common.DaprConfig.PUBSUB_NAME;
 
 import com.dapr.common.inventory.InventoryReservationFailedEvent;
-import com.dapr.common.inventory.InventoryReservationSucceedEvent;
+import com.dapr.common.inventory.InventoryReservationSucceededEvent;
 import com.dapr.inventory.business.repository.InventoryRepository;
 import com.dapr.inventory.model.entity.Product;
 import io.quarkiverse.dapr.core.SyncDaprClient;
@@ -45,20 +45,25 @@ public class InventoryService {
 
   public boolean reserveInventory(UUID orderId, Map<UUID, Integer> products) {
 
-    // check if we have enough inventory
+    // TODO: Implement inventory reservation logic - check availability + reserve inventory
     if (orderId == null || products == null || products.isEmpty()) {
       dapr.publishEvent(
           PUBSUB_NAME,
           INVENTORY_TOPIC,
           InventoryReservationFailedEvent.builder().orderId(orderId).build());
-      log.debug("Published INVENTORY RESERVATION FAILED event for order: {}", orderId);
+      log.info("Published INVENTORY RESERVATION FAILED event for order: {}", orderId);
       return false;
     }
     dapr.publishEvent(
         PUBSUB_NAME,
         INVENTORY_TOPIC,
-        InventoryReservationSucceedEvent.builder().orderId(orderId).build());
-    log.debug("Published INVENTORY RESERVATION SUCCEED event for order: {}", orderId);
+        InventoryReservationSucceededEvent.builder().orderId(orderId).build());
+    log.info("Published INVENTORY RESERVATION SUCCEED event for order: {}", orderId);
     return true;
+  }
+
+  public void confirmInventory(UUID uuid) {
+    log.info("Confirmed inventory for order {}", uuid);
+    // TODO: Implement inventory confirmation logic - deduct reserved inventory + handle errors
   }
 }

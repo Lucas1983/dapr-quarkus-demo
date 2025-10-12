@@ -12,12 +12,13 @@ import jakarta.ws.rs.*;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Path("/orders")
 public class OrderListener {
 
   @Inject InventoryService inventoryService;
 
   @POST
-  @Path("/order-created")
+  @Path("/created")
   @Topic(name = DaprConfig.ORDER_TOPIC, pubsubName = DaprConfig.PUBSUB_NAME)
   public void onOrderCreated(CloudEvent<OrderCreatedEvent> order) {
 
@@ -30,16 +31,16 @@ public class OrderListener {
   }
 
   @POST
-  @Path("/order-completed")
+  @Path("/completed")
   @Topic(name = DaprConfig.ORDER_TOPIC, pubsubName = DaprConfig.PUBSUB_NAME)
   public void onOrderCompleted(CloudEvent<OrderCompletedEvent> order) {
 
     log.info("Received ORDER COMPLETED event{}", order.getData().orderId());
-    // TODO: Implement inventory completion logic - update inventory stock
+    inventoryService.confirmInventory(order.getData().orderId());
   }
 
   @POST
-  @Path("/order-cancelled")
+  @Path("/cancelled")
   @Topic(name = DaprConfig.ORDER_TOPIC, pubsubName = DaprConfig.PUBSUB_NAME)
   public void onOrderCancelled(CloudEvent<OrderCanceledEvent> event) {
 

@@ -29,15 +29,15 @@ public class InventoryController {
     inventoryService.createProduct(product);
   }
 
+  @PUT
+  @Path("/")
+  public void updateProduct(Product product) {
+    inventoryService.updateProduct(product);
+  }
+
   @DELETE
   @Path("/{id}")
   public void deleteProductById(@PathParam("id") String id) {
     inventoryService.deleteProductById(id);
-  }
-
-  @PUT
-  @Path("/{id}")
-  public void updateProduct(@PathParam("id") String id, Product product) {
-    inventoryService.updateProduct(id, product);
   }
 }
