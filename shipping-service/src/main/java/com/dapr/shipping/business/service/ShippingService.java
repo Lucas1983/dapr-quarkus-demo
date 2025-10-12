@@ -48,6 +48,7 @@ public class ShippingService {
             () -> {
               throw new RuntimeException("Shipment not found: " + id);
             });
+    log.info("Updated shipment {} to status {}", id, status);
   }
 
   public void deleteShipment(UUID id) {

@@ -11,11 +11,12 @@ import jakarta.ws.rs.*;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class OrderSubscriber {
+@Path("/orders")
+public class OrderListener {
   @Inject ShippingService shippingService;
 
   @POST
-  @Path("/order-completed")
+  @Path("/completed")
   @Topic(name = DaprConfig.ORDER_TOPIC, pubsubName = DaprConfig.PUBSUB_NAME)
   public void onOrderCompleted(CloudEvent<OrderCompletedEvent> order) {
 
@@ -24,7 +25,7 @@ public class OrderSubscriber {
   }
 
   @POST
-  @Path("/order-cancelled")
+  @Path("/cancelled")
   @Topic(name = DaprConfig.ORDER_TOPIC, pubsubName = DaprConfig.PUBSUB_NAME)
   public void onOrderCancelled(CloudEvent<OrderCanceledEvent> event) {
 
