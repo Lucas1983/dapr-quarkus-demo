@@ -45,20 +45,17 @@ public class InventoryService {
 
   public boolean reserveInventory(UUID orderId, Map<UUID, Integer> products) {
 
+	  log.info("Reserving inventory for order {} with products {}", orderId, products);
     // TODO: Implement inventory reservation logic - check availability + reserve inventory
     if (orderId == null || products == null || products.isEmpty()) {
-      dapr.publishEvent(
-          PUBSUB_NAME,
-          INVENTORY_TOPIC,
-          InventoryReservationFailedEvent.builder().orderId(orderId).build());
-      log.info("Published INVENTORY RESERVATION FAILED event for order: {}", orderId);
+      var event = InventoryReservationFailedEvent.builder().orderId(orderId).build();
+      dapr.publishEvent(PUBSUB_NAME, INVENTORY_TOPIC, event);
+      log.info("Published INVENTORY RESERVATION FAILED event : {}", event);
       return false;
     }
-    dapr.publishEvent(
-        PUBSUB_NAME,
-        INVENTORY_TOPIC,
-        InventoryReservationSucceededEvent.builder().orderId(orderId).build());
-    log.info("Published INVENTORY RESERVATION SUCCEED event for order: {}", orderId);
+    var event = InventoryReservationSucceededEvent.builder().orderId(orderId).build();
+    dapr.publishEvent(PUBSUB_NAME, INVENTORY_TOPIC, event);
+    log.info("Published INVENTORY RESERVATION SUCCEED event : {}", event);
     return true;
   }
 
