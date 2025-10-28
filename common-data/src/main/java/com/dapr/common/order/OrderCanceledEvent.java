@@ -3,12 +3,16 @@ package com.dapr.common.order;
 import com.dapr.common.BaseEvent;
 import com.dapr.common.EventType;
 import java.util.UUID;
-import lombok.Builder;
 
+import lombok.*;
+
+@Data
 @Builder
-public record OrderCanceledEvent(UUID orderId) implements BaseEvent {
-  @Override
-  public EventType type() {
-    return EventType.ORDER_CANCELLED;
-  }
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderCanceledEvent extends BaseEvent {
+
+  private UUID orderId;
+  @Builder.Default private EventType type = EventType.ORDER_CANCELLED;
 }

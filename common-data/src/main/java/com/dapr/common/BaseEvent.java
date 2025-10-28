@@ -1,6 +1,6 @@
 package com.dapr.common;
 
-public interface BaseEvent {
+public abstract class BaseEvent {
 
-  EventType type();
+  EventType type;
 }

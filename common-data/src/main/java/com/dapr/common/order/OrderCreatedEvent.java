@@ -4,12 +4,17 @@ import com.dapr.common.BaseEvent;
 import com.dapr.common.EventType;
 import java.util.Map;
 import java.util.UUID;
-import lombok.Builder;
 
+import lombok.*;
+
+@Data
 @Builder
-public record OrderCreatedEvent(UUID orderId, Map<UUID, Integer> products) implements BaseEvent {
-  @Override
-  public EventType type() {
-    return EventType.ORDER_CREATED;
-  }
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderCreatedEvent extends BaseEvent {
+
+  private UUID orderId;
+  private Map<UUID, Integer> products;
+  @Builder.Default private EventType type = EventType.ORDER_CREATED;
 }
