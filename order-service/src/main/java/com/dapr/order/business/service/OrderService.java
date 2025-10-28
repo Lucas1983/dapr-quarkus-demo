@@ -47,16 +47,15 @@ public class OrderService {
             .createdAt(Instant.now())
             .build();
 
-    log.info("Created order {}", order);
-    dapr.publishEvent(
-        PUBSUB_NAME,
-        ORDER_TOPIC,
+    log.info("Created order : {}", order);
+    var event =
         OrderCreatedEvent.builder()
             .orderId(order.getOrderId())
             .products(order.getProducts())
-            .build());
+            .build();
+    dapr.publishEvent(PUBSUB_NAME, ORDER_TOPIC, event);
     orderRepository.saveOrder(order);
-    log.info("Published order CREATED event for {}", order);
+    log.info("Published ORDER CREATED event : {}", event);
   }
 
   public void updateOrderStatus(UUID id, OrderStatus orderStatus) {
@@ -69,30 +68,26 @@ public class OrderService {
               log.info("Updated order {}", order);
 
               switch (order.getOrderStatus()) {
-                case PROCESSING -> log.info("Order {} is being processed", order.getOrderId());
+                case PROCESSING -> log.info("Order is being processed : {}", order);
                 case COMPLETED -> {
-                  log.info("Order {} has been completed", order.getOrderId());
-                  dapr.publishEvent(
-                      PUBSUB_NAME,
-                      ORDER_TOPIC,
+                  log.info("Order has been completed : {}", order);
+                  var event =
                       OrderCompletedEvent.builder()
                           .orderId(order.getOrderId())
                           .customerId(order.getCustomerId())
-                          .build());
-                  log.info("Published order COMPLETED event for {}", order);
+                          .build();
+                  dapr.publishEvent(PUBSUB_NAME, ORDER_TOPIC, event);
+                  log.info("Published order COMPLETED event : {}", event);
                 }
                 case CANCELLED -> {
-                  log.info("Order {} has been cancelled", order.getOrderId());
-                  dapr.publishEvent(
-                      PUBSUB_NAME,
-                      ORDER_TOPIC,
-                      OrderCanceledEvent.builder().orderId(order.getOrderId()).build());
-                  log.info("Published order CANCELLED event for {}", order);
+                  log.info("Order has been cancelled : {}", order);
+                  var event = OrderCanceledEvent.builder().orderId(order.getOrderId()).build();
+                  dapr.publishEvent(PUBSUB_NAME, ORDER_TOPIC, event);
+                  log.info("Published order CANCELLED event : {}", event);
                 }
-                default -> {
-                  throw new IllegalStateException(
-                      "Unexpected order status: " + order.getOrderStatus());
-                }
+                default ->
+                    throw new IllegalStateException(
+                        "Unexpected order status: " + order.getOrderStatus());
               }
             },
             () -> {
