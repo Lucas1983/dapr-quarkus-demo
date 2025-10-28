@@ -1,16 +1,19 @@
-apiVersion: dapr.io/v1alpha1
+apiVersion: dapr.io/v2alpha1
 kind: Subscription
 metadata:
   name: order-subscription
 spec:
+  pubsubname: pubsub
   topic: orders
   routes:
-    default: /orders/default
     rules:
-      - match: event.type == order-completed" 
+      - match: event.data.type == "ORDER_COMPLETED"
         path: /orders/completed
-      - match: event.type == "order-cancelled"
+      - match: event.data.type == "ORDER_CANCELLED"
         path: /orders/cancelled
-      - match: event.type == "order-created"
+      - match: event.data.type == "ORDER_CREATED"
         path: /orders/created
-  pubsubname: pubsub
+    default: /orders/default
+  scopes:
+    - shipping-service
+    - inventory-service
