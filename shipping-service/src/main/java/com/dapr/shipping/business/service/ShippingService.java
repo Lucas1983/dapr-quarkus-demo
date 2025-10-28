@@ -33,7 +33,7 @@ public class ShippingService {
             .build();
 
     shippingRepository.saveShipment(shipment);
-    log.info("Created shipment {}", shipment);
+    log.info("Created shipment : {}", shipment);
   }
 
   public void updateShipmentStatus(UUID id, ShipmentStatus status) {
@@ -43,7 +43,7 @@ public class ShippingService {
             shipment -> {
               shipment.setShipmentStatus(status);
               shippingRepository.saveShipment(shipment);
-              log.info("Updated shipment {}", shipment);
+              log.info("Updated shipment : {}", shipment);
             },
             () -> {
               throw new RuntimeException("Shipment not found: " + id);
