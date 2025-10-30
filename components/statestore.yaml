@@ -11,3 +11,7 @@ spec:
       value: ""
     - name: actorStateStore
       value: "true"
+scopes:
+  - order-service
+  - inventory-service
+  - shipping-service

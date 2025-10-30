@@ -9,3 +9,7 @@ spec:
       value: localhost:6379
     - name: redisPassword
       value: ""
+scopes:
+  - order-service
+  - inventory-service
+  - shipping-service

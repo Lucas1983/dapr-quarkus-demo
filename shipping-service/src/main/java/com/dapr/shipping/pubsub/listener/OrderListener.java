@@ -5,11 +5,13 @@ import com.dapr.common.order.OrderCompletedEvent;
 import com.dapr.common.order.OrderCreatedEvent;
 import com.dapr.shipping.business.service.ShippingService;
 import io.dapr.client.domain.CloudEvent;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@ApplicationScoped
 @Path("/orders")
 public class OrderListener {
 
