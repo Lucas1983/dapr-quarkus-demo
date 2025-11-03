@@ -22,16 +22,18 @@ public class InventoryListener {
 
   @POST
   @Path("/default")
+  @Consumes("application/cloudevents+json")
   public void onUnknown(CloudEvent<Object> event) {
     log.info("Received unknown event : {}", event.getData());
   }
 
   @POST
   @Path("/reservation/succeeded")
-    @Topic(
-        name = DaprConfig.INVENTORY_TOPIC,
-        pubsubName = DaprConfig.PUBSUB_NAME,
-        rule = @Rule(match = "event.type == 'inventory-reservation-succeeded'", priority = 0))
+  @Consumes("application/cloudevents+json")
+  @Topic(
+      name = DaprConfig.INVENTORY_TOPIC,
+      pubsubName = DaprConfig.PUBSUB_NAME,
+      rule = @Rule(match = "event.data.type == 'INVENTORY_RESERVATION_SUCCEEDED'", priority = 0))
   public void onInventoryReservationSucceed(CloudEvent<InventoryReservationSucceededEvent> event) {
 
     log.info("Received INVENTORY RESERVATION SUCCEED event : {}", event);
@@ -40,10 +42,11 @@ public class InventoryListener {
 
   @POST
   @Path("/reservation/failed")
-    @Topic(
-        name = DaprConfig.INVENTORY_TOPIC,
-        pubsubName = DaprConfig.PUBSUB_NAME,
-        rule = @Rule(match = "event.type == 'inventory-reservation-failed'", priority = 1))
+  @Consumes("application/cloudevents+json")
+  @Topic(
+      name = DaprConfig.INVENTORY_TOPIC,
+      pubsubName = DaprConfig.PUBSUB_NAME,
+      rule = @Rule(match = "event.data.type == 'INVENTORY_RESERVATION_FAILED'", priority = 1))
   public void onInventoryReservationFailed(CloudEvent<InventoryReservationFailedEvent> event) {
 
     log.info("Received INVENTORY RESERVATION FAILED event : {}", event);

@@ -1,9 +1,12 @@
 package com.dapr.shipping.pubsub.listener;
 
+import com.dapr.common.DaprConfig;
 import com.dapr.common.order.OrderCanceledEvent;
 import com.dapr.common.order.OrderCompletedEvent;
 import com.dapr.common.order.OrderCreatedEvent;
 import com.dapr.shipping.business.service.ShippingService;
+import io.dapr.Rule;
+import io.dapr.Topic;
 import io.dapr.client.domain.CloudEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -19,27 +22,30 @@ public class OrderListener {
 
   @POST
   @Path("/default")
+  @Consumes("application/cloudevents+json")
   public void onUnknown(CloudEvent<Object> event) {
     log.info("Received unknown event : {}", event.getData());
   }
 
-	@POST
-	@Path("/created")
-	//  @Topic(
-	//      name = DaprConfig.ORDER_TOPIC,
-	//      pubsubName = DaprConfig.PUBSUB_NAME,
-	//      rule = @Rule(match = "event.type == 'order-created'", priority = 0))
-	public void onOrderCreated(CloudEvent<OrderCreatedEvent> event) {
+  @POST
+  @Path("/created")
+  @Consumes("application/cloudevents+json")
+  @Topic(
+      name = DaprConfig.ORDER_TOPIC,
+      pubsubName = DaprConfig.PUBSUB_NAME,
+      rule = @Rule(match = "event.data.type == 'ORDER_CREATED'", priority = 0))
+  public void onOrderCreated(CloudEvent<OrderCreatedEvent> event) {
 
-		log.info("Received ORDER CREATED event : {}", event);
-	}
+    log.info("Received ORDER CREATED event : {}", event);
+  }
 
   @POST
   @Path("/completed")
-  //  @Topic(
-  //      name = DaprConfig.ORDER_TOPIC,
-  //      pubsubName = DaprConfig.PUBSUB_NAME,
-  //      rule = @Rule(match = "event.type == 'order-completed'", priority = 0))
+  @Consumes("application/cloudevents+json")
+  @Topic(
+      name = DaprConfig.ORDER_TOPIC,
+      pubsubName = DaprConfig.PUBSUB_NAME,
+      rule = @Rule(match = "event.data.type == 'ORDER_COMPLETED'", priority = 1))
   public void onOrderCompleted(CloudEvent<OrderCompletedEvent> event) {
 
     log.info("Received ORDER COMPLETED event : {}", event);
@@ -48,10 +54,11 @@ public class OrderListener {
 
   @POST
   @Path("/cancelled")
-  //  @Topic(
-  //      name = DaprConfig.ORDER_TOPIC,
-  //      pubsubName = DaprConfig.PUBSUB_NAME,
-  //      rule = @Rule(match = "event.type == 'order-canceled'", priority = 1))
+  @Consumes("application/cloudevents+json")
+  @Topic(
+      name = DaprConfig.ORDER_TOPIC,
+      pubsubName = DaprConfig.PUBSUB_NAME,
+      rule = @Rule(match = "event.data.type == 'ORDER_CANCELLED'", priority = 2))
   public void onOrderCancelled(CloudEvent<OrderCanceledEvent> event) {
 
     log.info("Received ORDER CANCELLED event {}", event);

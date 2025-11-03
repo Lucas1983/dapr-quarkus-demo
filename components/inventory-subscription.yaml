@@ -6,11 +6,11 @@
 #  pubsubname: pubsub
 #  topic: inventory
 #  routes:
+#    default: /inventory/default
 #    rules:
 #      - match: event.data.type == "INVENTORY_RESERVATION_SUCCEEDED"
 #        path: /inventory/reservation/succeeded
 #      - match: event.data.type == "INVENTORY_RESERVATION_FAILED"
 #        path: /inventory/reservation/failed
-#    default: /inventory/default
 #  scopes:
 #    - order-service
