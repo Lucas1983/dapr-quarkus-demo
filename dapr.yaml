@@ -6,28 +6,38 @@ apps:
     appDirPath: ./inventory-service
     appProtocol: http
     appPort: 8081
-    appLogDestination: console
     daprHTTPPort: 38081
-    daprdLogDestination: console
     logLevel: debug
+    appLogDestination: console
+    daprdLogDestination: console
     command: ["./gradlew", "quarkusDev"]
 
   - appId: order-service
     appDirPath: ./order-service
     appProtocol: http
     appPort: 8082
-    appLogDestination: console
     daprHTTPPort: 38082
-    daprdLogDestination: console
     logLevel: debug
+    appLogDestination: console
+    daprdLogDestination: console
     command: ["./gradlew", "quarkusDev"]
 
   - appId: shipping-service
     appDirPath: ./shipping-service
     appProtocol: http
     appPort: 8083
-    appLogDestination: console
     daprHTTPPort: 38083
-    daprdLogDestination: console
     logLevel: debug
+    appLogDestination: console
+    daprdLogDestination: console
     command: ["./gradlew", "quarkusDev"]
+
+  - appId: customer-service
+    appDirPath: ./customer-service
+    appProtocol: http
+    appPort: 8084
+    daprHTTPPort: 38084
+    logLevel: debug
+    appLogDestination: console
+    daprdLogDestination: console
+    command: [ "./gradlew", "quarkusDev" ]
