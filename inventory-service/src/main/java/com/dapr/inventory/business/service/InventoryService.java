@@ -3,8 +3,8 @@ package com.dapr.inventory.business.service;
 import static com.dapr.common.DaprConfig.INVENTORY_TOPIC;
 import static com.dapr.common.DaprConfig.PUBSUB_NAME;
 
-import com.dapr.common.inventory.InventoryReservationFailedEvent;
-import com.dapr.common.inventory.InventoryReservationSucceededEvent;
+import com.dapr.common.inventory.event.InventoryReservationFailedEvent;
+import com.dapr.common.inventory.event.InventoryReservationSucceededEvent;
 import com.dapr.inventory.business.repository.InventoryRepository;
 import com.dapr.inventory.model.entity.Product;
 import io.quarkiverse.dapr.core.SyncDaprClient;

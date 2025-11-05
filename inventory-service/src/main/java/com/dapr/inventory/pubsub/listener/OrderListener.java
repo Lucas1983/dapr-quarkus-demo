@@ -1,9 +1,9 @@
 package com.dapr.inventory.pubsub.listener;
 
 import com.dapr.common.DaprConfig;
-import com.dapr.common.order.OrderCanceledEvent;
-import com.dapr.common.order.OrderCompletedEvent;
-import com.dapr.common.order.OrderCreatedEvent;
+import com.dapr.common.order.event.OrderCanceledEvent;
+import com.dapr.common.order.event.OrderCompletedEvent;
+import com.dapr.common.order.event.OrderCreatedEvent;
 import com.dapr.inventory.business.service.InventoryService;
 import io.dapr.Rule;
 import io.dapr.Topic;
