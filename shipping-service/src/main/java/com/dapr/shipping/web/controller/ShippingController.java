@@ -1,9 +1,9 @@
 package com.dapr.shipping.web.controller;
 
+import com.dapr.common.inventory.dto.CreateShipmentDto;
 import com.dapr.shipping.business.service.ShippingService;
 import com.dapr.shipping.model.entity.Shipment;
 import com.dapr.shipping.model.dictionary.ShipmentStatus;
-import com.dapr.shipping.web.dto.CreateShipmentDto;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import java.util.List;
