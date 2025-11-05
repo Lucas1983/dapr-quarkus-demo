@@ -1,4 +1,4 @@
-package com.dapr.common.inventory;
+package com.dapr.common.inventory.event;
 
 import com.dapr.common.BaseEvent;
 import com.dapr.common.EventType;

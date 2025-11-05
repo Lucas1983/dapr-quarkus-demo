@@ -1,7 +1,8 @@
-package com.dapr.common.order;
+package com.dapr.common.order.event;
 
 import com.dapr.common.BaseEvent;
 import com.dapr.common.EventType;
+import java.util.Map;
 import java.util.UUID;
 
 import lombok.*;
@@ -11,9 +12,9 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderCompletedEvent extends BaseEvent {
+public class OrderCreatedEvent extends BaseEvent {
 
   private UUID orderId;
-  private UUID customerId;
-  @Builder.Default private EventType type = EventType.ORDER_COMPLETED;
+  private Map<UUID, Integer> products;
+  @Builder.Default private EventType type = EventType.ORDER_CREATED;
 }

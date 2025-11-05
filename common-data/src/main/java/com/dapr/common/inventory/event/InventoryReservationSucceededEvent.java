@@ -1,4 +1,4 @@
-package com.dapr.common.order;
+package com.dapr.common.inventory.event;
 
 import com.dapr.common.BaseEvent;
 import com.dapr.common.EventType;
@@ -11,8 +11,8 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderCanceledEvent extends BaseEvent {
+public class InventoryReservationSucceededEvent extends BaseEvent {
 
   private UUID orderId;
-  @Builder.Default private EventType type = EventType.ORDER_CANCELLED;
+  @Builder.Default private EventType type = EventType.INVENTORY_RESERVATION_SUCCEEDED;
 }
