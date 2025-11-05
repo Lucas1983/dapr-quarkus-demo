@@ -1,8 +1,8 @@
 package com.dapr.order.pubsub.listener;
 
 import com.dapr.common.DaprConfig;
-import com.dapr.common.inventory.InventoryReservationFailedEvent;
-import com.dapr.common.inventory.InventoryReservationSucceededEvent;
+import com.dapr.common.inventory.event.InventoryReservationFailedEvent;
+import com.dapr.common.inventory.event.InventoryReservationSucceededEvent;
 import com.dapr.order.business.service.OrderService;
 import com.dapr.order.model.dictionary.OrderStatus;
 import io.dapr.Rule;

@@ -1,9 +1,9 @@
 package com.dapr.order.web.controller;
 
+import com.dapr.common.order.dto.CreateOrderDto;
 import com.dapr.order.business.service.OrderService;
 import com.dapr.order.model.entity.Order;
 import com.dapr.order.model.dictionary.OrderStatus;
-import com.dapr.order.web.dto.CreateOrderDto;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import java.util.List;
