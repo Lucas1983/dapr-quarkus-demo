@@ -14,8 +14,8 @@ spec:
         key: redis-password
     - name: actorStateStore
       value: "true"
-#scopes:
-#  - order-service
-#  - inventory-service
-#  - shipping-service
-#  - customer-service
+scopes:
+  - order-service
+  - inventory-service
+  - shipping-service
+  - customer-service

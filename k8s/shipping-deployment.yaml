@@ -24,8 +24,6 @@ spec:
         - env:
             - name: APP_PORT
               value: "8083"
-            - name: DAPR_HTTP_PORT
-              value: "38083"
             - name: DAPR_METRICS_PORT
               value: "60644"
             - name: APP_ID

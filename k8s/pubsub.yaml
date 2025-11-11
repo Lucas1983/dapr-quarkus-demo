@@ -12,7 +12,7 @@ spec:
       secretKeyRef:
         name: dapr-dev-redis
         key: redis-password
-#scopes:
-#  - order-service
-#  - inventory-service
-#  - shipping-service
+scopes:
+  - order-service
+  - inventory-service
+  - shipping-service
