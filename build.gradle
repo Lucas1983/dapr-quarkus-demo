@@ -51,6 +51,15 @@ tasks.register('testAll') {
     dependsOn gradle.includedBuild('customer-service').task(':test')
 }
 
+tasks.register('imageBuildAll') {
+    group = 'build'
+    description = 'Runs image build for all modules in the repository.'
+    dependsOn gradle.includedBuild('order-service').task(':imageBuild')
+    dependsOn gradle.includedBuild('inventory-service').task(':imageBuild')
+    dependsOn gradle.includedBuild('shipping-service').task(':imageBuild')
+    dependsOn gradle.includedBuild('customer-service').task(':imageBuild')
+}
+
 // Convenience alias so `gradle test` works from root
 tasks.register('test') {
     group = 'verification'
