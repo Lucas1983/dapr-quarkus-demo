@@ -9,12 +9,15 @@ repositories {
 }
 
 dependencies {
+    implementation 'io.quarkiverse.dapr:quarkus-dapr:2.2.0'
     implementation enforcedPlatform("${quarkusPlatformGroupId}:${quarkusPlatformArtifactId}:${quarkusPlatformVersion}")
     implementation 'io.quarkus:quarkus-arc'
     implementation 'io.quarkus:quarkus-rest'
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
     implementation("io.quarkus:quarkus-rest-jackson")
+
+    implementation 'com.dapr.common:common-data:1.0.0'
 
     // lombok
     compileOnly 'org.projectlombok:lombok:1.18.36'

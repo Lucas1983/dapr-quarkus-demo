@@ -1,14 +1,18 @@
 package com.dapr.order.web.controller;
 
+import com.dapr.common.order.dto.CreateOrderDto;
 import com.dapr.order.business.service.OrderService;
-import com.dapr.order.model.Order;
+import com.dapr.order.model.entity.Order;
+import com.dapr.order.model.dictionary.OrderStatus;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import java.util.List;
+import java.util.UUID;
 
 @Path("order")
 public class OrderController {
 
-  private final OrderService orderService;
+  @Inject OrderService orderService;
 
   public OrderController(OrderService orderService) {
     this.orderService = orderService;
@@ -22,19 +26,25 @@ public class OrderController {
 
   @GET
   @Path("/{id}")
-  public Order getOrder(@PathParam("id") int id) {
+  public Order getOrder(@PathParam("id") UUID id) {
     return orderService.getOrder(id);
   }
 
   @POST
   @Path("/")
-  public void addOrder(Order order) {
-    orderService.addOrder(order);
+  public void createOrder(CreateOrderDto dto) {
+    orderService.createOrder(dto);
+  }
+
+  @PUT
+  @Path("/{id}/status")
+  public void updateOrderStatus(@PathParam("id") UUID id, @QueryParam("status") OrderStatus status) {
+    orderService.updateOrderStatus(id, status);
   }
 
   @DELETE
   @Path("/{id}")
-  public void deleteOrder(@PathParam("id") int id) {
-    orderService.deleteOrder(id);
+  public void removeOrder(@PathParam("id") UUID id) {
+    orderService.removeOrder(id);
   }
 }
